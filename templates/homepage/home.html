@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title%} <title>BTP Research</title> {%endblock title%}
+{% block style %}
+<style>
+    h2 {
+        color: blue;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div>
+    <h2>body for My App</h2>
+    <p>Stuff etc etc.</p>
+    <input placeholder="please insert your query" id="query-ip-box"></input>
+    <button id="submit-btn">submit</button>
+    <div id="output-div"></div>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script>
+    document.getElementById('submit-btn').addEventListener('click', (req, res) => {
+        const query = document.getElementById('query-ip-box').value;
+        //make an ajax request 
+        const postData = { 'query': query };
+        $.ajax({
+            url: 'api/chat-api',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(postData),
+            success: function (response) {
+                document.getElementById('output-div').innerText = response.data;
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+
+    })
+</script>
+{% endblock script %}
